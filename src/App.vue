@@ -1,27 +1,63 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="page-container">
+    <NavBar class="navbar" />
+    <div class="content-container">
+      <AndiMenu class="menu" />
+      <div class="main-content">
+        <RouterView />
+        <Footer />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import NavBar from './components/NavBar.vue';
+import AndiMenu from './components/AndiMenu.vue';
+import Footer from './components/Footer.vue';
+import { RouterView } from 'vue-router';
+
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    NavBar,
+    AndiMenu,
+    Footer,
+    RouterView
   }
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 10vh;
+}
+
+.navbar {
+  width: 100%;
+  height: 60px;
+  background: white;
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+  margin-top: 50px;
+}
+
+.menu {
+  width: 250px;
+  min-width: 200px;
+  background: #f8f8f8;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
 }
 </style>

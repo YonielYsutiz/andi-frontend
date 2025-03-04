@@ -1,0 +1,9 @@
+/* Aplica la fuente a todo el proyecto */
+body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  /* Sobrescribe la fuente en los componentes de Element Plus */
+  .el-button, .el-input, .el-menu, .el-table, .el-dialog, .el-form {
+    font-family: 'Roboto', sans-serif !important;
+  }
