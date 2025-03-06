@@ -7,27 +7,6 @@
             <div class="card-header">
               <span><strong>Empresas registradas</strong></span>
               <el-button type="primary" @click="openModal = true">Agregar Empresa</el-button> 
-              <el-dialog v-model="openModal" title="Agregar Empresa" width="500px">
-                <el-form :model="form" label-width="120px">
-                  <el-form-item label="Empresa">
-                    <el-input v-model="form.name" placeholder="Ingrese el nombre" />
-                  </el-form-item>
-                  <el-form-item label="Ciudad">
-                    <el-input v-model="form.city" placeholder="Ingrese la ciudad" />
-                  </el-form-item>
-                  <el-form-item label="Sector">
-                    <el-input v-model="form.sector" placeholder="Ingrese el sector" />
-                  </el-form-item>
-                  <el-form-item label="Oferta">
-                      <el-input-tag v-model="form.tags" placeholder="Ingrese el Oferta" />
-                  </el-form-item>
-                  <el-form-item label="Sitio Web">
-                      <el-input v-model="form.web" placeholder="Ingrese el sitio web" />
-                  </el-form-item>
-                </el-form>
-                <el-button @click="openModal = false">Cancelar</el-button>
-                <el-button type="primary" @click="guardarEmpresa">Guardar</el-button>
-              </el-dialog>
             </div>
           </template>
             <!-- FILTRO LISTA DE EMPRESAS -->
@@ -68,7 +47,7 @@
               <el-table-column property="sector" label="Sector"/>
               <el-table-column
                 prop="tags"
-                label="Oferta"
+                label="Producto o servicio"
                 width="240"
                 :tooltip-formatter="({ row }) => row.tags.join(', ')"
               >
@@ -88,6 +67,54 @@
               <el-table-column property="name" label="Sitio web"/>
             </el-table>
         </el-card>
+
+        <!-- MODAL PARA CREAR EMPRESA -->
+        <el-dialog v-model="openModal" title="Agregar empresa" width="500">
+          <el-form label-position="top" :model="form" label-width="120px">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="Razon Social">
+                  <el-input v-model="form.name" placeholder="Ingrese el nombre" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="Sector">
+                  <el-input v-model="form.sector" placeholder="Ingrese el sector" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="Ciudad">
+                  <el-input v-model="form.city" placeholder="Ingrese la ciudad" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="Sitio Web">
+                    <el-input v-model="form.web" placeholder="Ingrese el sitio web" />
+                </el-form-item>
+              </el-col>
+              <el-col>
+                <el-form-item label="Servicio o producto">
+                    <el-input-tag v-model="form.tags" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </el-form>
+            
+            
+
+
+            
+          
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="openModal = false">Cancelar</el-button>
+              <el-button type="primary" @click="guardarEmpresa">
+                Guardar
+              </el-button>
+            </div>
+          </template>
+        </el-dialog>
+
       </el-col>
     </el-row>
   </div>
@@ -190,7 +217,7 @@ export default defineComponent({
   .page-container {
     display: flex;
     flex-direction: column;
-    min-height: 60vh;
+    min-height: 64vh;
   }
   .main-content {
     flex: 1;
@@ -200,8 +227,13 @@ export default defineComponent({
     display: flex; 
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+  }
+
+  .my-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 16px;
   }
 </style>
 
