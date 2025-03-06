@@ -1,14 +1,12 @@
 <template>
-  <div class="page-container">
-    <NavBar class="navbar" />
-    <div class="content-container">
-      <AndiMenu class="menu" />
-      <div class="main-content">
-        <RouterView />
-        <Footer />
-      </div>
+  <NavBar class="navbar" />
+  <div class="content-container">
+    <AndiMenu/>
+    <div class="main-content">
+      <RouterView />
     </div>
   </div>
+  <Footer />
 </template>
 
 <script lang="ts">
@@ -30,7 +28,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
 .page-container {
   display: flex;
   flex-direction: column;

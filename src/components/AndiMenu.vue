@@ -1,6 +1,5 @@
 <template>
-
-    <el-col :span="4">
+    <el-col :span="3">
         <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
@@ -17,7 +16,7 @@
         <el-sub-menu index="2">
             <template #title>
             <el-icon><User /></el-icon>
-            <span>Usuario</span>
+            <span>Usuarios</span>
             </template>
             <el-menu-item index="2-1">Listar Usuarios</el-menu-item>
         </el-sub-menu>

@@ -1,16 +1,24 @@
 <template>
-  <div class="container">
-    <el-card class="custom-card">
-      <template #header>
-        <div class="logo-container">
-          <img class="logo" src="../assets/AndiLogo.png" alt="Andi Logo"/>
-        </div>
-      </template>
-      <div class="content">
-        <p v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</p>
-      </div>
-    </el-card>
-    <GraphChart />
+  <div class="page-container">
+    <el-row :gutter="20">
+      <el-col :span="10">
+        <el-card class="custom-card">
+          <template #header>
+            <div class="logo-container">
+              <img class="logo" src="https://cdn.iconscout.com/icon/free/png-256/free-coca-cola-1863554-1579762.png?f=webp" alt="Logo empresa"/>
+            </div>
+          </template>
+        </el-card>
+      </el-col>
+      <el-col :span="14">
+        <el-card class="custom-card">
+          <template #header>
+            <strong>Empresas de interes</strong>
+          </template>
+          <GraphChart />
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -26,38 +34,28 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
+  .logo-container
+  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100vh;
-  padding-left: 50px;
-}
-.custom-card {
-  max-width: 300px;
-  text-align: center;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 2 2px 10px rgba(0, 0, 0, 0.1);
-}
+  .logo {
+    width: 150px;
+  }
 
-.logo-container
-{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .page-container {
+    /* display: flex; */
+    /* flex-direction: column; */
+    min-height: 60vh;
+  }
 
-.logo
-{
-  width: 150px;
-}
-
-.content {
-  padding-top: 20px;
-}
-
+  .custom-card {
+    text-align: left;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 2 2px 10px rgba(0, 0, 0, 0.1);
+  }
 </style>

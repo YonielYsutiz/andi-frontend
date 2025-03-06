@@ -4,7 +4,7 @@ import AndiGraph from '@/components/AndiGraph.vue';
 
 const routes = [
   {path: '/', component: InitialForm},
-  {path: '/graph', component: AndiGraph}
+  {path: '/enterprise/detail', component: AndiGraph}
 ]
 
 const router = createRouter({
