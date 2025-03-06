@@ -6,32 +6,36 @@
             @open="handleOpen"
             @close="handleClose"
         >
-        <el-sub-menu index="1">
-            <template #title>
-            <el-icon><OfficeBuilding /></el-icon>
-            <span>Empresas</span>
-            </template>
-            <el-menu-item index="1-1">Cargar Empresas</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="2">
-            <template #title>
-            <el-icon><User /></el-icon>
-            <span>Usuarios</span>
-            </template>
-            <el-menu-item index="2-1">Listar Usuarios</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="3">
-            <template #title>
-            <el-icon><setting /></el-icon>
-            <span>Configuración</span>
-            </template>
-            <el-menu-item index="3-1">Listar Tags</el-menu-item>
-        </el-sub-menu>
+            <el-sub-menu index="1">
+                <template #title>
+                <el-icon><OfficeBuilding /></el-icon>
+                <span>Rueda de negocios</span>
+                </template>
+                <el-menu-item index="1-1">
+                    <router-link to="/business-roundtable">Cargar rueda de negocios</router-link>
+                </el-menu-item>
+            </el-sub-menu>
+            <el-sub-menu index="2">
+                <template #title>
+                <el-icon><User /></el-icon>
+                <span>Usuarios</span>
+                </template>
+                <el-menu-item index="2-1">
+                    <router-link to="/list-user">Cargar rueda de negocios</router-link>
+                </el-menu-item>
+            </el-sub-menu>
+            <el-sub-menu index="3">
+                <template #title>
+                <el-icon><setting /></el-icon>
+                <span>Configuración</span>
+                </template>
+                <el-menu-item index="3-1">Listar Tags</el-menu-item>
+            </el-sub-menu>
         <el-menu-item index="4">
             <el-icon><QuestionFilled /></el-icon>
             <span>Ayuda</span>
         </el-menu-item>
-          </el-menu>
+        </el-menu>
     </el-col>
 </template>
 

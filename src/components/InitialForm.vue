@@ -6,6 +6,28 @@
           <template #header>
             <div class="card-header">
               <span><strong>Empresas registradas</strong></span>
+              <el-button type="primary" @click="openModal = true">Agregar Empresa</el-button> 
+              <el-dialog v-model="openModal" title="Agregar Empresa" width="500px">
+                <el-form :model="form" label-width="120px">
+                  <el-form-item label="Empresa">
+                    <el-input v-model="form.name" placeholder="Ingrese el nombre" />
+                  </el-form-item>
+                  <el-form-item label="Ciudad">
+                    <el-input v-model="form.city" placeholder="Ingrese la ciudad" />
+                  </el-form-item>
+                  <el-form-item label="Sector">
+                    <el-input v-model="form.sector" placeholder="Ingrese el sector" />
+                  </el-form-item>
+                  <el-form-item label="Oferta">
+                      <el-input-tag v-model="form.tags" placeholder="Ingrese el Oferta" />
+                  </el-form-item>
+                  <el-form-item label="Sitio Web">
+                      <el-input v-model="form.web" placeholder="Ingrese el sitio web" />
+                  </el-form-item>
+                </el-form>
+                <el-button @click="openModal = false">Cancelar</el-button>
+                <el-button type="primary" @click="guardarEmpresa">Guardar</el-button>
+              </el-dialog>
             </div>
           </template>
             <!-- FILTRO LISTA DE EMPRESAS -->
@@ -43,6 +65,7 @@
                 </template>
               </el-table-column>
               <el-table-column property="city" label="Ciudad"/>
+              <el-table-column property="sector" label="Sector"/>
               <el-table-column
                 prop="tags"
                 label="Oferta"
@@ -62,12 +85,6 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column
-                property="address"
-                label="Demanda"
-                width="300"
-                show-overflow-tooltip
-              />
               <el-table-column property="name" label="Sitio web"/>
             </el-table>
         </el-card>
@@ -77,17 +94,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent} from 'vue';
+import { defineComponent, ref} from 'vue';
 import {ElRow, ElCol, ElTable} from 'element-plus';
 import { ElLink, type TableTooltipData } from 'element-plus'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Search } from '@element-plus/icons-vue'; 
+import { Search } from '@element-plus/icons-vue';
+
+const openModal = ref<boolean>(false);
+
+const guardarEmpresa = (): void=>{
+  console.log("Empresa guardada")
+  openModal.value = false
+}
 
 interface Enterprises {
   date: string
   name: string
   city: string
+  sector: string
   tags: string[]
   address: string
 }
@@ -102,34 +127,42 @@ export default defineComponent({
   },data() {
     return {
       search: "",
+      openModal: false,
+      form: {
+        name: "",
+        city: "",
+        sector: "",
+        tags: "",
+        web: "",
+      },
       tableData: [
         {
           date: '2016-05-04',
-          name: 'Coca cola',
+          name: 'Contenedores antioquia',
           city: 'Rio negro - Antioquia',
-          tags: ['error', 'warning', 'success', 'info', "danger"],
-          address: 'Lohrbergstr. 86c, Süd Lilli, Saarland',
+          sector: 'Construcción e inmobiliria',
+          tags: ['Contenedores', 'Sala de ventas', 'Tienda', 'Transporte de Contenedores'],
         },
         {
           date: '2016-05-03',
-          name: 'Postobon',
+          name: 'EAFIT - on going',
           city: 'Bogota - Bogota',
-          tags: ['error', 'warning', 'success', 'info'],
-          address: '760 A Street, South Frankfield, Illinois',
+          sector: 'Educación',
+          tags: ['Universidad', 'Impulsar', 'Emprender']
         },
         {
           date: '2016-05-02',
-          name: 'Cervezeria Aguila',
+          name: 'Industrias LAVCO',
           city: 'Manizales - Antioquia',
-          tags: ['error', 'warning', 'success', 'info', "danger"],
-          address: 'Arnold-Ohletz-Str. 41a, Alt Malinascheid, Thüringen',
+          sector: 'Producción e industria',
+          tags: ['Metalmecánica', 'Motores', 'Compresores', 'Bombas', "Automotores"]
         },
         {
           date: '2016-05-01',
-          name: 'Jugos Hit',
+          name: 'Gases de Occidente',
           city: 'Chia - Cundinamarca',
-          tags: ['error', 'warning', 'success', 'info'],
-          address: '23618 Windsor Drive, West Ricardoview, Idaho',
+          sector: 'Energía y Gas',
+          tags: ['Scouting', 'Benchmarking', 'Blockchain']
         },
       ] as Enterprises[],
     };
@@ -143,7 +176,11 @@ export default defineComponent({
     },
     tableRowFormatter(data: TableTooltipData){
       return `${data.cellValue}: table formatter`
-    }
+    },
+    guardarEmpresa(): void {
+      console.log("Empresa guardada");
+      this.openModal = false;
+    },
   },
 });
 
@@ -157,6 +194,14 @@ export default defineComponent({
   }
   .main-content {
     flex: 1;
+  }
+
+  .card-header {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
   }
 </style>
 

@@ -6,12 +6,15 @@
       :ellipsis="false"
       @select="handleSelect"
   >
-    <el-menu-item index="0">
+    <el-menu-item index="0" class="logo-container">
+      <router-link to="/">
         <img
+          class="logo"
           style="width: 70px; margin-right: auto;"
           src="../assets/AndiLogo.png"
           alt="Andi"
         />
+      </router-link>
     </el-menu-item>
       <el-sub-menu index="1">
         <template #title>Administrador</template>
@@ -48,4 +51,20 @@ export default defineComponent({
   .el-menu--horizontal > .el-menu-item:nth-child(1) {
     margin-right: auto;
   }
+  .menu-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.logo {
+  width: 70px;
+  position: relative;
+  top: -10px;
+}
 </style>
