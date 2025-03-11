@@ -8,6 +8,30 @@
               <img class="logo" src="https://cdn.iconscout.com/icon/free/png-256/free-coca-cola-1863554-1579762.png?f=webp" alt="Logo empresa"/>
             </div>
           </template>
+          <p>
+            <strong>Razon social:</strong> Coca Cola SA
+          </p>
+          <p>
+            <strong>Contacto:</strong> hola@cocacola.com
+          </p>
+          <div>
+            <strong>Servicios o productos ofrecidos:</strong>
+            <div class="flex gap-2">
+              <el-tag type="primary">Tag 1</el-tag>
+              <el-tag type="primary">Tag 2</el-tag>
+              <el-tag type="primary">Tag 3</el-tag>
+              <el-tag type="primary">Tag 4</el-tag>
+            </div>
+          </div>
+          <div>
+            <strong>Servicios o productos buscados:</strong>
+            <div class="flex gap-2">
+              <el-tag type="warning">Tag 1</el-tag>
+              <el-tag type="warning">Tag 2</el-tag>
+              <el-tag type="warning">Tag 3</el-tag>
+              <el-tag type="warning">Tag 4</el-tag>
+            </div>
+          </div>
         </el-card>
       </el-col>
       <el-col :span="14">

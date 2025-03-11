@@ -1,7 +1,7 @@
 <template>
   <NavBar class="navbar" />
   <div class="content-container">
-    <AndiMenu/>
+    <AndiMenu v-if="!isLoginRoute"/>
     <div class="main-content">
       <RouterView />
     </div>
@@ -24,6 +24,11 @@ export default defineComponent({
     AndiMenu,
     Footer,
     RouterView
+  },
+  computed: {
+      isLoginRoute(): boolean {
+          return this.$route.path === '/login';  // O puedes usar `this.$route.path === '/login'`
+      }
   }
 });
 </script>

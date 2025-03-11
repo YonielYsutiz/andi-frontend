@@ -22,7 +22,8 @@
                 <el-icon><setting /></el-icon>
                 <span>Configuración</span>
                 </template>
-                <el-menu-item index="3-1">Listar Tags</el-menu-item>
+                <el-menu-item index="3-1">Tags</el-menu-item>
+                <el-menu-item index="3-2">Personalizacion</el-menu-item>
             </el-sub-menu>
             <el-menu-item index="5">
                 <el-icon><QuestionFilled /></el-icon>

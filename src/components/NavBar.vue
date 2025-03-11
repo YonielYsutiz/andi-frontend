@@ -16,9 +16,11 @@
         />
       </router-link>
     </el-menu-item>
-      <el-sub-menu index="1">
+      <el-sub-menu index="1" v-if="!isLoginRoute">
         <template #title>Administrador</template>
-        <el-menu-item index="1-1">Cerrar sesión </el-menu-item>
+        <el-menu-item index="1-1">
+          <router-link to="/login">Cerrar sesión</router-link>
+        </el-menu-item>
       </el-sub-menu>
     </el-menu>
 </template>
@@ -44,6 +46,11 @@ export default defineComponent({
       console.log(index);
     },
   },
+  computed: {
+      isLoginRoute(): boolean {
+          return this.$route.path === '/login';  // O puedes usar `this.$route.path === '/login'`
+      }
+  }
 });
 </script>
 
