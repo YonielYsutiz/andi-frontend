@@ -31,7 +31,7 @@
               </el-col>
             </el-row>
             <!-- TABLA DE EMPRESAS REGISTRADAS -->
-            <el-table :tooltip-formatter="tableRowFormatter" :data="tableData" style="width: 100%; margin-top: 2%;" show-overflow-tooltip>
+            <el-table :tooltip-formatter="tableRowFormatter" :data="companies" style="width: 100%; margin-top: 2%;" show-overflow-tooltip>
               <el-table-column type="selection" width="55" />
               <!-- <el-table-column label="Date" width="120">
                 <template #default="scope">{{ scope.row.date }}</template>
@@ -39,7 +39,7 @@
               <el-table-column label="Empresa">
                 <template #default="scope">
                   <router-link to="/enterprise/detail">
-                    {{ scope.row.name }}
+                    {{ scope.row.name_company }}
                   </router-link>
                 </template>
               </el-table-column>
@@ -64,7 +64,7 @@
                   </el-tag>
                 </template>
               </el-table-column>
-              <el-table-column property="name" label="Sitio web"/>
+              <el-table-column property="name_company" label="Sitio web"/>
             </el-table>
         </el-card>
 
@@ -73,8 +73,13 @@
           <el-form label-position="top" :model="form" label-width="120px">
             <el-row :gutter="20">
               <el-col :span="12">
+                <el-form-item label="NIT">
+                  <el-input v-model="form.nit" placeholder="Ingrese el NIT" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
                 <el-form-item label="Razon Social">
-                  <el-input v-model="form.name" placeholder="Ingrese el nombre" />
+                  <el-input v-model="form.name_company" placeholder="Ingrese el nombre" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -98,13 +103,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-          </el-form>
-            
-            
-
-
-            
-          
+          </el-form>  
           <template #footer>
             <div class="dialog-footer">
               <el-button @click="openModal = false">Cancelar</el-button>
@@ -123,7 +122,8 @@
 <script lang="ts">
 import { defineComponent, ref} from 'vue';
 import {ElRow, ElCol, ElTable} from 'element-plus';
-import { ElLink, type TableTooltipData } from 'element-plus'
+import { ElLink, type TableTooltipData } from 'element-plus';
+import axios from "axios";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Search } from '@element-plus/icons-vue';
@@ -137,7 +137,8 @@ const guardarEmpresa = (): void=>{
 
 interface Enterprises {
   date: string
-  name: string
+  name_company: string
+  nit: string
   city: string
   sector: string
   tags: string[]
@@ -156,42 +157,14 @@ export default defineComponent({
       search: "",
       openModal: false,
       form: {
-        name: "",
+        nit:"",
+        name_company: "",
         city: "",
         sector: "",
         tags: "",
         web: "",
       },
-      tableData: [
-        {
-          date: '2016-05-04',
-          name: 'Contenedores antioquia',
-          city: 'Rio negro - Antioquia',
-          sector: 'Construcción e inmobiliria',
-          tags: ['Contenedores', 'Sala de ventas', 'Tienda', 'Transporte de Contenedores'],
-        },
-        {
-          date: '2016-05-03',
-          name: 'EAFIT - on going',
-          city: 'Bogota - Bogota',
-          sector: 'Educación',
-          tags: ['Universidad', 'Impulsar', 'Emprender']
-        },
-        {
-          date: '2016-05-02',
-          name: 'Industrias LAVCO',
-          city: 'Manizales - Antioquia',
-          sector: 'Producción e industria',
-          tags: ['Metalmecánica', 'Motores', 'Compresores', 'Bombas', "Automotores"]
-        },
-        {
-          date: '2016-05-01',
-          name: 'Gases de Occidente',
-          city: 'Chia - Cundinamarca',
-          sector: 'Energía y Gas',
-          tags: ['Scouting', 'Benchmarking', 'Blockchain']
-        },
-      ] as Enterprises[],
+      companies:[] as Enterprises[],
     };
   },
   methods: {
@@ -204,11 +177,34 @@ export default defineComponent({
     tableRowFormatter(data: TableTooltipData){
       return `${data.cellValue}: table formatter`
     },
-    guardarEmpresa(): void {
-      console.log("Empresa guardada");
-      this.openModal = false;
+    async guardarEmpresa(){
+      try{
+        const empresaData ={
+          nit: this.form.nit,
+          name_company: this.form.name_company,
+          sector: this.form.sector  
+        };
+        const response = await axios.post("http://127.0.0.1:5000/companies/company_register", empresaData);
+        console.log("Respuesta del servidor", response.data);
+        this.openModal = false;
+      }
+      catch(error){
+        console.log("Error al registar la empresa", error)
+      }
+    },
+    async fecthCompanies(){
+      try{
+        const response = await axios.get("http://127.0.0.1:5000/companies/all-companies");
+        this.companies = response.data;
+      }
+      catch(error){
+        console.log("Error al obtener las empresas", error);
+      }
     },
   },
+  mounted(){
+      this.fecthCompanies();
+  }
 });
 
 </script>
