@@ -31,11 +31,8 @@
               </el-col>
             </el-row>
             <!-- TABLA DE EMPRESAS REGISTRADAS -->
-            <el-table :tooltip-formatter="tableRowFormatter" :data="companies" style="width: 100%; margin-top: 2%;" show-overflow-tooltip>
+            <el-table :tooltip-formatter="tableRowFormatter" :data="companies"  height="400" style="width: 100%; margin-top: 2%;" show-overflow-tooltip>
               <el-table-column type="selection" width="55" />
-              <!-- <el-table-column label="Date" width="120">
-                <template #default="scope">{{ scope.row.date }}</template>
-              </el-table-column> -->
               <el-table-column label="Empresa">
                 <template #default="scope">
                   <router-link to="/enterprise/detail">
@@ -65,6 +62,12 @@
                 </template>
               </el-table-column>
               <el-table-column property="name_company" label="Sitio web"/>
+              <el-table-column width="200" align="right">
+                <template #default="{row}">
+                  <el-button type="primary" @click="openEditCompany(row)">Editar</el-button>
+                  <el-button type="danger" @click="deleteCompany(row.id)">Eliminar</el-button>
+                </template>
+              </el-table-column>
             </el-table>
         </el-card>
 
@@ -113,15 +116,57 @@
             </div>
           </template>
         </el-dialog>
-
       </el-col>
     </el-row>
+
+    <el-dialog v-model="openModalEdit" title="Editar Usuario" width="500">
+          <el-form label-position="top" :model="form" label-width="120px">
+            <el-row :gutter="20">
+                <el-col :span="12">
+              <el-form-item label="NIT">
+                <el-input v-model="form.nit" placeholder="Ingrese el NIT" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Nombre de la empresa">
+                <el-input v-model="form.name_company" placeholder="Ingrese el Nombre de la empresa" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Ciudad">
+                <el-input v-model="form.city" placeholder="Ingrese la ciudad" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Sector">
+                <el-input v-model="form.sector" placeholder="Ingrese el sector" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+                <el-form-item label="Servicio o producto">
+                    <el-input-tag v-model="form.tags" />
+                </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Correo">
+                <el-input v-model="form.web" placeholder="Ingrese el correo" />
+              </el-form-item>
+            </el-col>
+            </el-row>
+          </el-form>
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="openModalEdit = false">Cancelar</el-button>
+              <el-button type="primary" @click="editCompany">Actualizar</el-button>
+            </div>
+        </template>
+        </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref} from 'vue';
-import {ElRow, ElCol, ElTable} from 'element-plus';
+import {ElRow, ElCol, ElTable, ElAlert, ElNotification} from 'element-plus';
 import { ElLink, type TableTooltipData } from 'element-plus';
 import axios from "axios";
 
@@ -156,7 +201,9 @@ export default defineComponent({
     return {
       search: "",
       openModal: false,
+      openModalEdit: false,
       form: {
+        id:"",
         nit:"",
         name_company: "",
         city: "",
@@ -186,10 +233,24 @@ export default defineComponent({
         };
         const response = await axios.post("http://127.0.0.1:5000/companies/company_register", empresaData);
         console.log("Respuesta del servidor", response.data);
-        this.openModal = false;
+        
+        ElNotification.success({
+              title: 'Éxito',
+              message: 'Empresa registrada correctamente',
+              offset: 100,
+            });
+        setTimeout(()=>{
+          this.openModal = false;
+          this.fecthCompanies();
+        }, 1000);
       }
       catch(error){
-        console.log("Error al registar la empresa", error)
+        console.log("Error al registrar la empresa", error);
+        ElNotification.error({
+              title: 'Error',
+              message: 'No se pudo registrar la empresa',
+              offset: 100,
+            });
       }
     },
     async fecthCompanies(){
@@ -201,6 +262,68 @@ export default defineComponent({
         console.log("Error al obtener las empresas", error);
       }
     },
+    openEditCompany(company: any){
+      this.form ={
+        id: company.id,
+        nit: company.nit,
+        name_company: company.name_company,
+        sector: company.sector,
+        city: company.city,
+        web: company.web,
+        tags: company.tags,
+      }
+      this.openModalEdit = true;
+    },
+    async editCompany(event?: Event){
+      if (event) event.preventDefault();
+
+      if (!this.form.id){
+        console.error("Error: ID de empresa no definido.");
+        return;
+      }
+
+      try{
+        await axios.put(`http://127.0.0.1:5000/companies/update-company/${this.form.id}`, {
+          nit: this.form.nit,
+          name_company: this.form.name_company,
+          sector: this.form.sector
+        });
+        ElNotification.success({
+              title: 'Éxito',
+              message: 'Empresa actualizado correctamente',
+              offset: 100,
+            });
+            this.openModalEdit= false;
+            this.fecthCompanies();
+      }
+      catch(error){
+        console.error("Error al actualizar empresa", error);
+            ElNotification.error({
+              title: 'Error',
+              message: 'No se pudo actualizar la empresa',
+              offset: 100,
+            });
+      }
+    },
+    async deleteCompany(companyId: number){
+      try{
+        await axios.delete(`http://127.0.0.1:5000/companies/delete-company/${companyId}`);
+        ElNotification.success({
+              title: 'Éxito',
+              message: 'Empresa eliminada correctamente',
+              offset: 100,
+            });
+            this.fecthCompanies();
+      }
+      catch(error){
+        console.error("Error al eliminar empresa", error);
+            ElNotification.error({
+              title: 'Error',
+              message: 'No se pudo eliminar la empresa',
+              offset: 100,
+            });
+      }
+    }
   },
   mounted(){
       this.fecthCompanies();
