@@ -15,8 +15,8 @@
                         <el-table-column prop="email" label="Correo"/>
                         <el-table-column width="200" align="right">
                           <template #default="{row}">
-                            <el-button type="primary" @click="openEditUser(row)">Editar</el-button>
-                            <el-button type="danger" @click="deleteUser(row.id)">Eliminar</el-button>
+                            <el-button type="primary" @click="openEditUser(row)"><el-icon><Edit /></el-icon></el-button>
+                            <el-button type="danger" @click="deleteUser(row.id)"><el-icon><Delete/></el-icon></el-button>
                           </template>
                         </el-table-column>
                     </el-table>
@@ -109,7 +109,7 @@
 import { defineComponent } from 'vue';
 import axios from "axios";
 import { ElNotification } from 'element-plus'
-import { compose } from 'element-plus/es/components/table/src/util';
+import { Delete, Edit } from '@element-plus/icons-vue'; 
 
 interface Enterprises {
     date: string;
@@ -118,6 +118,10 @@ interface Enterprises {
 }
 export default defineComponent({
     name:"listUser",
+    components: {
+        Delete,
+        Edit
+    },
     data() {
         return {
             openModal: false,

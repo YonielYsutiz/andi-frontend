@@ -35,8 +35,10 @@
               <el-table-column type="selection" width="55" />
               <el-table-column label="Empresa">
                 <template #default="scope">
-                  <router-link to="/enterprise/detail">
-                    {{ scope.row.name_company }}
+                  <router-link  :to="{ path: '/enterprise/detail', query: { name_company: scope.row.name_company }}">
+                    <el-link :underline="false">
+                      {{ scope.row.name_company }}
+                    </el-link>
                   </router-link>
                 </template>
               </el-table-column>
@@ -64,8 +66,8 @@
               <el-table-column property="name_company" label="Sitio web"/>
               <el-table-column width="200" align="right">
                 <template #default="{row}">
-                  <el-button type="primary" @click="openEditCompany(row)">Editar</el-button>
-                  <el-button type="danger" @click="deleteCompany(row.id)">Eliminar</el-button>
+                  <el-button type="primary" @click="openEditCompany(row)"><el-icon><Edit /></el-icon></el-button>
+                  <el-button type="danger" @click="deleteCompany(row.id)"><el-icon><Delete/></el-icon></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -166,8 +168,9 @@
 
 <script lang="ts">
 import { defineComponent, ref} from 'vue';
-import {ElRow, ElCol, ElTable, ElAlert, ElNotification} from 'element-plus';
+import {ElRow, ElCol, ElTable, ElAlert, ElNotification, ElIcon} from 'element-plus';
 import { ElLink, type TableTooltipData } from 'element-plus';
+import { Delete, Edit } from '@element-plus/icons-vue'; 
 import axios from "axios";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -195,7 +198,10 @@ export default defineComponent({
   components: {
     ElRow,
     ElCol,
-    ElTable
+    ElTable,
+    ElIcon,
+    Delete,
+    Edit,
 
   },data() {
     return {

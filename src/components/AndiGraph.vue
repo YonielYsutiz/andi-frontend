@@ -9,7 +9,7 @@
             </div>
           </template>
           <p>
-            <strong>Razon social:</strong> Coca Cola SA
+            <strong>Razon social:</strong>  {{ name_company }}
           </p>
           <p>
             <strong>Contacto:</strong> hola@cocacola.com
@@ -48,12 +48,26 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
 import GraphChart from './GraphChart.vue';
 
 export default defineComponent({
   name: 'AndiGraph',
   components: {
     GraphChart
+  },
+  data(){
+    return {
+      name_company: '' as string
+    };
+  },
+  created() {
+    const route = useRoute();
+    console.log("Query recibida:", route.query); // Verifica qué está llegando en la query
+    console.log("Valor de name_company:", route.query.name_company);
+    const queryName = route.query.name_company as string | undefined;
+
+    this.name_company = queryName ? decodeURIComponent(queryName) : 'No especificado';
   }
 });
 </script>
